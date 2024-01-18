@@ -12,6 +12,8 @@ services:
       - POSTGRES_DB=tickets
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - mynetwork
 
@@ -64,3 +66,6 @@ services:
 networks:
   mynetwork:
     driver: bridge
+    
+volumes:
+  postgres_data:

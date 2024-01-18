@@ -30,18 +30,18 @@ const TicketSchema = {
   },
   status: {
     allowNull: false,
-    type: DataTypes.TEXT,
+    type: DataTypes.ENUM("open", "closed"),
     field: "status",
   },
   created_at: {
     allowNull: false,
-    type: DataTypes.TIMESTAMP,
+    type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     field: "created_at",
   },
   updated_at: {
     allowNull: false,
-    type: DataTypes.TIMESTAMP,
+    type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     field: "updated_at",
   },
