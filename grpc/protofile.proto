@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package ticketapi;
+
+// Message for creating a new ticket
+message CreateTicketRequest {
+  string user = 1;
+  string status = 2;
+}
+
+// Message for the response after creating a ticket
+message CreateTicketResponse {
+  string id = 1;
+  string user = 2;
+  string status = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// Message for pagination request
+message PaginationRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+// Message for a list of tickets response
+message TicketListResponse {
+  repeated TicketInfo ticket_info = 1;
+}
+
+// Message for retrieving a specific ticket by ID
+message GetTicketByIdRequest {
+  string id = 1;
+}
+
+// Message for updating a ticket
+message UpdateTicketRequest {
+  string id = 1;
+  string user = 2;
+  string status = 3;
+}
+
+// Message for the response after updating a ticket
+message UpdateTicketResponse {
+  string id = 1;
+  string user = 2;
+  string status = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// Message for deleting a ticket
+message DeleteTicketRequest {
+  string id = 1;
+}
+
+// Message for the response after deleting a ticket
+message DeleteTicketResponse {
+  string message = 1;
+}
+
+// Message for representing ticket information
+message TicketInfo {
+  string id = 1;
+  string user = 2;
+  string status = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// Service for the ticket API
+service TicketService {
+  rpc CreateTicket(CreateTicketRequest) returns (CreateTicketResponse);
+  rpc GetTickets(PaginationRequest) returns (TicketListResponse);
+  rpc GetTicketById(GetTicketByIdRequest) returns (TicketInfo);
+  rpc UpdateTicket(UpdateTicketRequest) returns (UpdateTicketResponse);
+  rpc DeleteTicket(DeleteTicketRequest) returns (DeleteTicketResponse);
+}
