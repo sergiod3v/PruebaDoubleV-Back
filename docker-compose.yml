@@ -14,13 +14,19 @@ services:
 
   rest-api:
     build:
+      dockerfile: Dockerfile
       context: ./rest
+    container_name: rest
     ports:
       - "3000:3000"
     depends_on:
       - postgres
     networks:
       - mynetwork
+    restart: always
+    volumes:
+      - .:/app
+      - /app/rest/node_modules
 
   grpc-server:
     build:
