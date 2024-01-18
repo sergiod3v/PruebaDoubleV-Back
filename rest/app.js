@@ -4,9 +4,10 @@ const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const ticketRoutes = require("./routes/ticket-routes");
 const pool = require("./db/db");
+const { config } = require("./config/config");
 
 const app = express();
-const port = 3000;
+const port = config.port;
 
 app.use(helmet());
 app.use(cors());
