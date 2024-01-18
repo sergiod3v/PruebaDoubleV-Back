@@ -3,14 +3,26 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
+    restart: always
     environment:
-      POSTGRES_DB: tickets
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=tickets
     ports:
       - "5432:5432"
     networks:
       - mynetwork
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
 
   rest-api:
     build:
