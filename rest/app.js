@@ -19,15 +19,29 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.use("/api", ticketRoutes);
+app.use("/api/v1/tickets", ticketRoutes);
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error("error CONNECTING TO DB 1", err);
+  }
+
+  client.query("SELECT NOW()", (err, result) => {
+    release();
+    if (err) {
+      return console.error("error CONNECTING TO DB 2", err);
+    }
+    console.log("connected to database");
+  });
 });
 
 // Handle database connection error
 pool.on("error", (err, client) => {
   console.error("Unexpected error on idle client", err);
   process.exit(-1);
+});
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
 });

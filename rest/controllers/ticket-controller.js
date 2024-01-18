@@ -15,14 +15,7 @@ class TicketController {
   }
 
   async getTickets(req, res) {
-    try {
-      const { page = 1, limit = 10 } = req.query;
-      const result = await TicketModel.getTickets(page, limit);
-      res.json(result);
-    } catch (error) {
-      console.error("Error retrieving tickets", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+    res.send({ msg: "endpoint connected" });
   }
 
   async getTicketById(req, res) {

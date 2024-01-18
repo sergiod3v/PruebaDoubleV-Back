@@ -1,45 +1,50 @@
-// models/ticketmodel.js
+const { Model, DataTypes, Sequelize } = require("sequelize");
 
-const db = require("../db/db");
+const TICKET_TABLE = "tickets";
 
-class TicketModel {
-  async createTicket(user, status) {
-    const result = await db.query(
-      "INSERT INTO tickets (user, status) VALUES ($1, $2) RETURNING *",
-      [user, status]
-    );
-    return result.rows[0];
-  }
-
-  async getTickets(page, limit) {
-    const offset = (page - 1) * limit;
-    const result = await db.query(
-      "SELECT * FROM tickets ORDER BY id LIMIT $1 OFFSET $2",
-      [limit, offset]
-    );
-    return result.rows;
-  }
-
-  async getTicketById(id) {
-    const result = await db.query("SELECT * FROM tickets WHERE id = $1", [id]);
-    return result.rows[0];
-  }
-
-  async updateTicket(id, user, status) {
-    const result = await db.query(
-      "UPDATE tickets SET user = $1, status = $2, updated_at = NOW() WHERE id = $3 RETURNING *",
-      [user, status, id]
-    );
-    return result.rows[0];
-  }
-
-  async deleteTicket(id) {
-    const result = await db.query(
-      "DELETE FROM tickets WHERE id = $1 RETURNING *",
-      [id]
-    );
-    return result.rows[0];
+class Ticket extends Model {
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: TICKET_TABLE,
+      modelName: "Ticket",
+      timestamps: true,
+      updatedAt: "updated_at",
+      createdAt: "created_at",
+    };
   }
 }
 
-module.exports = new TicketModel();
+const TicketSchema = {
+  id: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.INTEGER,
+    field: "id",
+  },
+  user: {
+    allowNull: false,
+    type: DataTypes.TEXT,
+    field: "user",
+  },
+  status: {
+    allowNull: false,
+    type: DataTypes.TEXT,
+    field: "status",
+  },
+  created_at: {
+    allowNull: false,
+    type: DataTypes.TIMESTAMP,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    field: "created_at",
+  },
+  updated_at: {
+    allowNull: false,
+    type: DataTypes.TIMESTAMP,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    field: "updated_at",
+  },
+};
+
+module.exports = { Ticket, TicketSchema };
