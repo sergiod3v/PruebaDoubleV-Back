@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const User = sequelize.define("User", {
+  const Ticket = sequelize.define("Ticket", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -24,8 +24,7 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-    // Add other fields as needed
   });
 
-  return User;
+  return Ticket;
 };

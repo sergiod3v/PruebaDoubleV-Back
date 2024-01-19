@@ -1,28 +1,29 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  type User {
-    id: ID!
-    user: String!
-    status: Status!
-    createdAt: String!
-    updatedAt: String!
+  type Ticket {
+    id: ID
+    user: String
+    status: Status
+    createdAt: String
+    updatedAt: String
   }
 
   enum Status {
-    OPEN
-    CLOSED
+    open
+    closed
   }
 
   type Query {
-    getUser(id: ID!): User
-    getUsers: [User]
+    getTicket(id: ID!): Ticket
+    getTickets(limit: Int, offset: Int, user: String, status: Status): [Ticket]
   }
 
   type Mutation {
-    createUser(user: String!, status: Status): User
-    updateUser(id: ID!, user: String, status: Status): User
-    deleteUser(id: ID!): User
+    createTicket(user: String!, status: Status): Ticket
+    updateTicket(id: ID!, user: String, status: Status): Ticket
+    deleteTicket(id: ID!): Ticket
   }
 `;
+
 module.exports = typeDefs;

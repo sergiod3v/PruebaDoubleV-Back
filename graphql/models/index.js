@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const UserModel = require("./User");
+const TicketModel = require("./Ticket");
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -10,6 +10,6 @@ const sequelize = new Sequelize({
   database: "tickets",
 });
 
-const User = UserModel(sequelize);
+const Ticket = TicketModel(sequelize);
 
-module.exports = { sequelize, User };
+module.exports = { sequelize, Ticket };
