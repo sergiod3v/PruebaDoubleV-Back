@@ -1,11 +1,39 @@
 const { models } = require("../lib/sequelize");
+const { Op } = require("sequelize");
 
 class TicketsService {
   constructor() {}
 
-  async find() {
-    const res = await models.Ticket.findAll();
-    return res;
+  async find({ page = 1, pageSize = 10, user, status } = {}) {
+    try {
+      const offset = (page - 1) * pageSize;
+      const whereClause = {};
+
+      if (user) {
+        whereClause.user = {
+          [Op.iLike]: `%${user}%`, // Case-insensitive substring matching
+        };
+      }
+
+      if (status) {
+        whereClause.status = status;
+      }
+
+      const res = await models.Ticket.findAndCountAll({
+        where: whereClause,
+        limit: pageSize,
+        offset: offset,
+      });
+
+      return {
+        total: res.count,
+        page,
+        pageSize,
+        data: res.rows,
+      };
+    } catch (error) {
+      throw new Error(`Error fetching tickets: ${error.message}`);
+    }
   }
 
   async findOne(id) {

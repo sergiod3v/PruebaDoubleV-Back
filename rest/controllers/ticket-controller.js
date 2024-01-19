@@ -12,7 +12,15 @@ const createTicket = async (req, res) => {
 
 const getTickets = async (req, res) => {
   try {
-    const response = await service.find();
+    const { page = 1, pageSize = 10, user, status } = req.query;
+
+    const response = await service.find({
+      page: parseInt(page),
+      pageSize: parseInt(pageSize),
+      user,
+      status,
+    });
+
     res.json(response);
   } catch (error) {
     res.status(500).send({ success: false, message: error.message });
